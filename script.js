@@ -36,8 +36,8 @@ function PromiseAny(arr){
 	})
 }
 
-PromiseAll([...apiUrls]);
 PromiseAny([...apiUrls]);
+// PromiseAll([...apiUrls]);
 
 
 
