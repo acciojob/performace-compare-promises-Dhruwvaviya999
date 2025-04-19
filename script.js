@@ -13,31 +13,36 @@ const apiUrls = [
 ];
 // You can write your code here
 
-let start = performance.now();
-function PromiseAll(arr){
-	let outputAll = document.getElementById("output-all");
-	Promise.all(arr).then(res => {
-		let end = performance.now();
-		let timeTaken = end - start;
-		outputAll.textContent = timeTaken;
-	}).catch(err => {
+async function PromiseAll(arr){
+	const start = performance.now();
+	try{
+		const responses = await Promise.all(apiUrls.map(url => fetch(url)));
+	    const data = await Promise.all(responses.map(res => res.json()));
+	    const end = performance.now();
+	    document.getElementById('output-all').innerText = (end - start).toFixed(2);
+	} catch(err){
 		console.log(err);
-	})
+	}
 }
 
-function PromiseAny(arr){
-	let outputAny = document.getElementById("output-any");
-	Promise.any(arr).then(res => {
-		let end = performance.now();
-		let timeTaken = end - start;
-		outputAny.textContent = timeTaken;
-	}).catch(err => {
+async function PromiseAny(arr){
+	const start = performance.now();
+	try{
+		 const responses = await Promise.any(apiUrls.map(url =>
+	      fetch(url).then(res => {
+	        if (!res.ok) throw new Error("Fetch failed");
+	        return res.json();
+	      })
+	    ));
+		const end = performance.now();
+	    document.getElementById('output-any').innerText = (end - start).toFixed(2);
+	} catch(err){
 		console.log(err);
-	})
+	}
 }
 
-PromiseAny([...apiUrls]);
-// PromiseAll([...apiUrls]);
+PromiseAll(apiUrls);
+PromiseAny(apiUrls);
 
 
 
