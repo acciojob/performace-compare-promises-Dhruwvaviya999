@@ -11,5 +11,35 @@ const apiUrls = [
   "https://jsonplaceholder.typicode.com/todos/9",
   "https://jsonplaceholder.typicode.com/todos/10",
 ];
-
 // You can write your code here
+
+let start = performance.now();
+function PromiseAll(arr){
+	let outputAll = document.getElementById("output-all");
+	Promise.all(arr).then(res => {
+		let end = performance.now();
+		let timeTaken = end - start;
+		outputAll.textContent = timeTaken;
+	}).catch(err => {
+		console.log(err);
+	})
+}
+
+function PromiseAny(arr){
+	let outputAny = document.getElementById("output-any");
+	Promise.any(arr).then(res => {
+		let end = performance.now();
+		let timeTaken = end - start;
+		outputAny.textContent = timeTaken;
+	}).catch(err => {
+		console.log(err);
+	})
+}
+
+PromiseAll([...apiUrls]);
+PromiseAny([...apiUrls]);
+
+
+
+
+
